@@ -27,7 +27,7 @@ from keras.callbacks import EarlyStopping
 def load_sentences():
     # Duomenų surinkimas ir apdorojimas
 
-    # Nnuskaitymas
+    # Nuskaitymas
     df = pd.read_csv('Emotion_classify_Data.csv')
 
     # Emocijos ir jų perkodavimas
@@ -57,13 +57,14 @@ def create_model(optimizer='adam'):
     model = Sequential([
         Embedding(input_dim=1000, output_dim=10, input_length=20),
         LSTM(32),
-        Dense(3, activation='softmax')
+        Dense(3, activation='sigmoid')
     ])
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
 
 def decode_emotion_name(unique_emotions, prediction):
+    # Skaitinių rezultatų dekodavimas į emocijų pavadinimus
     max_idx = np.argmax(prediction)
     emotion_name = unique_emotions[max_idx]
     return emotion_name
@@ -128,16 +129,26 @@ def run_grid_search(padded_seq_train, labels_train):
 
     return random_result.best_params_
 
+
+# Įkeliame duomenų rinkinį, užkoduojame emocijas ir paruošiame duomenis modeliui
 tokenizer, padded_sequences, labels, unique_emotion_names = load_sentences()
-padded_seq_train, padded_seq_test, labels_train, labels_test = train_test_split(padded_sequences, labels, test_size=0.2, random_state=42)
+
+# Papildomai padalinti į apmokymo ir testavimo imtis
+padded_seq_train, padded_seq_test, labels_train, labels_test = train_test_split(
+    padded_sequences, labels, test_size=0.2, random_state=42)
 
 # Hiperparametrų optimizavimas - neveikia:
 # ValueError: Sequential model 'sequential_10' has no defined outputs yet.
+# # https://github.com/mrdbourke/tensorflow-deep-learning/discussions/256
+# # https://github.com/tensorflow/tensorflow/releases/tag/v2.7.0 Breaking Changes
+# # The methods Model.fit(), Model.predict(), and Model.evaluate() will no longer uprank input data of shape (batch_size,) to become (batch_size, 1).
 # best_params = run_grid_search(padded_seq_train, labels_train)
+
 
 # Treniruotas modelis
 model, log = train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20)
 
+# Modelio įvertinimas
 #model_predict = model.predict(padded_seq_test)
 test_loss, test_accuracy = model.evaluate(padded_seq_test, labels_test)
 print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'

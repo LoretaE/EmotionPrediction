@@ -192,6 +192,7 @@ def run_grid_search(padded_seq_train, labels_train):
     # ValueError: Sequential model 'sequential_10' has no defined outputs yet.
     # https://github.com/mrdbourke/tensorflow-deep-learning/discussions/256
     # https://github.com/tensorflow/tensorflow/releases/tag/v2.7.0 Breaking Changes
+    # The methods Model.fit(), Model.predict(), and Model.evaluate() will no longer uprank input data of shape (batch_size,) to become (batch_size, 1).
     random_result = random_search.fit(padded_seq_train, labels_train)
 
     print(f"Best: {random_result.best_score_} using {random_result}")
