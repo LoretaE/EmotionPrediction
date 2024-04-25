@@ -26,7 +26,7 @@ Python ✦ TensorFlow/Keras ✦ NLTK ✦ scikit-learn ✦ Pandas
 
 ---Coming soon---
 
-# Emocijų atpažinimas iš teksto (NLP) (LT) <img src="https://media.giphy.com/media/3o7WIx7urV838kHFzW/giphy.gif" width="50">
+# Emocijų-atpažinimas-iš-teksto-NLP (LT) <img src="https://media.giphy.com/media/3o7WIx7urV838kHFzW/giphy.gif" width="50">
 
 <br>
 
