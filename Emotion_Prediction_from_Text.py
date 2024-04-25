@@ -73,8 +73,9 @@ def decode_emotion_name(unique_emotions, prediction):
 def test_manually(model, unique_emotion_names):
     print(f'\nIšbandykite patys!')
     while True:
-        test_tekstas = input(f'Iveskite teksta anglu kalba arba exit:')
-        if test_tekstas == 'exit':
+        test_tekstas = input(f'Iveskite teksta anglu kalba '
+                             f'(noredami baigti, iveskite "exit" arba nieko nevede spauskite Enter):\n> ')
+        if test_tekstas in ['exit', '']:
             break
         test_sequence = tokenizer.texts_to_sequences([test_tekstas])
         test_padded = pad_sequences(test_sequence, maxlen=20, padding='post', truncating='post')
