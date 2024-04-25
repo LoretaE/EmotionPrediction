@@ -58,7 +58,7 @@ Python ✦ TensorFlow/Keras ✦ NLTK ✦ scikit-learn ✦ Pandas
 def load_sentences():
     # Duomenų surinkimas ir apdorojimas
 
-    # Nnuskaitymas
+    # Nuskaitymas
     df = pd.read_csv('Emotion_classify_Data.csv')
 
     # Emocijos ir jų perkodavimas
@@ -82,8 +82,17 @@ def load_sentences():
     padded_sequences = pad_sequences(sequences, maxlen=20, padding='post', truncating='post')
 
     return tokenizer, padded_sequences, labels, unique_emotion_names
+
+
+tokenizer, padded_sequences, labels, unique_emotion_names = load_sentences()
+# Papildomai padalinti į apmokymo ir testavimo imtis
+padded_seq_train, padded_seq_test, labels_train, labels_test = train_test_split(
+    padded_sequences, labels, test_size=0.2, random_state=42
+    )
 ```
-### Sukuriame Sequential modelį su Embedding, LSTM, and Dense layeriais
+![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f624e2f5-357a-4ff1-af2b-14fc4dcdf267)
+
+### Sequential modelio su Embedding, LSTM ir Dense sluoksniais sukūrimo funkcija
 
 ```javascript
 def create_model(optimizer='adam'):
@@ -95,7 +104,8 @@ def create_model(optimizer='adam'):
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 ```
-### 1 modelio sukūrimas ir apmokymas.
+
+### Vieno modelio sukūrimas ir apmokymas.
 
 ```javascript
 def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20):
@@ -116,16 +126,50 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
               callbacks=[early_stopping],
               validation_split=0.2)
     return model, log
+
+
+model, log = train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20)
 ```
-### Skaitinių rezultatų dekodavimas į emocijų pavadinimus
+
+## Modelio įvertinimas
 
 ```javascript
+#model_predict = model.predict(padded_seq_test)
+test_loss, test_accuracy = model.evaluate(padded_seq_test, labels_test)
+print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'
+      f' - nuostoliai: {test_loss:.3f}, \n '
+      f'- tikslumas: {test_accuracy:.3f} ')
+```
+![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/4e92a02e-6f0d-4e97-867a-876f376b895d)
+![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f7816344-b3e0-48c8-9927-efb0588e76f0)
+
+### Naudotojas gali pats išsibandyti veikimą (kaip modelis atpažįsta emocijas iš teksto)
+
+```javascript
+def test_manually(model, unique_emotion_names):
+    print(f'\nIšbandykite patys!')
+    while True:
+        test_tekstas = input(f'Iveskite teksta anglu kalba arba exit:')
+        if test_tekstas == 'exit':
+            break
+        test_sequence = tokenizer.texts_to_sequences([test_tekstas])
+        test_padded = pad_sequences(test_sequence, maxlen=20, padding='post', truncating='post')
+
+        predictions = model.predict(test_padded)
+        decoded_predictions = decode_emotion_name(unique_emotion_names, predictions)
+        print(f'Priskirtas emocijos pavadinimas: {decoded_predictions}')
+
 def decode_emotion_name(unique_emotions, prediction):
+    # Skaitinių rezultatų dekodavimas į emocijų pavadinimus
     max_idx = np.argmax(prediction)
     emotion_name = unique_emotions[max_idx]
     return emotion_name
+
+
+test_manually(model, unique_emotion_names)
 ```
-### Bandymas ieškoti hyperparametrų (gavome klaidą, nepavyko išspręsti)
+
+### Bandymas ieškoti hiperparametrų (gavome klaidą, bet nepavyko išspręsti)
 
 ```javascript
 def run_grid_search(padded_seq_train, labels_train):
@@ -145,7 +189,9 @@ def run_grid_search(padded_seq_train, labels_train):
         n_iter=10,
         random_state=42)
 
-    # # ValueError: Sequential model 'sequential_10' has no defined outputs yet.
+    # ValueError: Sequential model 'sequential_10' has no defined outputs yet.
+    # https://github.com/mrdbourke/tensorflow-deep-learning/discussions/256
+    # https://github.com/tensorflow/tensorflow/releases/tag/v2.7.0 Breaking Changes
     random_result = random_search.fit(padded_seq_train, labels_train)
 
     print(f"Best: {random_result.best_score_} using {random_result}")
@@ -153,38 +199,3 @@ def run_grid_search(padded_seq_train, labels_train):
 
     return random_result.best_params_
 ```
-
-### Naudotojas gali pats išsibandyti veikimą (kaip modelis atpažįsta emocijas iš teksto)
-
-```javascript
-def test_manually(model, unique_emotion_names):
-    print(f'\nIšbandykite patys!')
-    while True:
-        test_tekstas = input(f'Iveskite teksta anglu kalba arba exit:')
-        if test_tekstas == 'exit':
-            break
-        test_sequence = tokenizer.texts_to_sequences([test_tekstas])
-        test_padded = pad_sequences(test_sequence, maxlen=20, padding='post', truncating='post')
-
-        predictions = model.predict(test_padded)
-        decoded_predictions = decode_emotion_name(unique_emotion_names, predictions)
-        print(f'Priskirtas emocijos pavadinimas: {decoded_predictions}')
-```
-
-## Modelio įvertinimas
-
-```javascript
-#model_predict = model.predict(padded_seq_test)
-test_loss, test_accuracy = model.evaluate(padded_seq_test, labels_test)
-print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'
-      f' - nuostoliai: {test_loss:.3f}, \n '
-      f'- tikslumas: {test_accuracy:.3f} ')
-```
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f7816344-b3e0-48c8-9927-efb0588e76f0)
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/4e92a02e-6f0d-4e97-867a-876f376b895d)
-
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f624e2f5-357a-4ff1-af2b-14fc4dcdf267)
-
-
-
-
