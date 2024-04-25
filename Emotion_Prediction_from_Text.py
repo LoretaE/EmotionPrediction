@@ -55,6 +55,9 @@ def load_sentences():
 
 def create_model(optimizer='adam'):
     model = Sequential([
+        # būtent dėl Embedding sluoksnio neveikia kvietimas per RandomizedSearchCV,
+        # nors RandomizedSearchCV veikia išmetus Embedding ir LSTM
+        # Embedding veikia modelį tiesiogiai paleidus 
         Embedding(input_dim=1000, output_dim=10, input_length=20),
         LSTM(32),
         Dense(3, activation='sigmoid')
