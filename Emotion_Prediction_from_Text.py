@@ -23,6 +23,7 @@ from scikeras.wrappers import KerasClassifier
 from scipy.stats import randint as sp_randint
 from sklearn.model_selection import RandomizedSearchCV
 from keras.callbacks import EarlyStopping
+import matplotlib.pyplot as plt
 
 def load_sentences():
     # Duomenų surinkimas ir apdorojimas
