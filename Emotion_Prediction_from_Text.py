@@ -8,22 +8,21 @@
 # Modelių kūrimas ir mokymas: CNN, RNN ar LSTM naudojimas emocijų atpažinimui.
 # Vertinimas ir tobulinimas: Modelio efektyvumo įvertinimas naudojant matavimo rodiklius, pavyzdžiui, tikslumą, ir modelio tobulinimas.
 
-import tensorflow as tf
 import numpy as np
+import pandas as pd
+import tensorflow as tf
+from keras.callbacks import EarlyStopping
 from keras.src.utils import pad_sequences
+from matplotlib import pyplot as plt
+from scikeras.wrappers import KerasClassifier
+from scipy.stats import randint as sp_randint
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Embedding, GRU
 from tensorflow.keras.utils import to_categorical
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from scikeras.wrappers import KerasClassifier
-from scipy.stats import randint as sp_randint
-from sklearn.model_selection import RandomizedSearchCV
-from keras.callbacks import EarlyStopping
-import matplotlib.pyplot as plt
 
 def load_sentences():
     # Duomenų surinkimas ir apdorojimas
@@ -106,22 +105,29 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
               batch_size=batch_size,
               callbacks=[early_stopping],
               validation_split=0.2)
-    loss_df = pd.DataFrame(model.history.history)
-    loss_df['accuracy'].plot(label='accuracy')
-    loss_df['val_accuracy'].plot(label='val_accuracy')
+    return model, log
+
+def grafikai(log):
+    # Tikslumas
+    plt.figure()
+    df = pd.DataFrame(log.history)
+    df['accuracy'].plot(label='accuracy')
+    df['val_accuracy'].plot(label='val_accuracy')
     plt.title('Modelio tikslumo kaita')
     plt.xlabel('Ciklas (epoch)')
     plt.ylabel('Tikslumas (accuracy)')
     plt.legend()
     plt.show()
-    loss_df['loss'].plot(label='loss')
-    loss_df['val_loss'].plot(label='val_loss')
+
+    # Nuostoliai
+    plt.figure()
+    df['loss'].plot(label='loss')
+    df['val_loss'].plot(label='val_loss')
     plt.title('Modelio nuostolių kaita')
     plt.xlabel('Ciklas (epoch)')
     plt.ylabel('Nuostoliai (loss)')
     plt.legend()
     plt.show()
-    return model, log
 
 
 def run_grid_search(padded_seq_train, labels_train):
@@ -167,6 +173,7 @@ padded_seq_train, padded_seq_test, labels_train, labels_test = train_test_split(
 
 # Treniruotas modelis
 model, log = train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20)
+grafikai(log)
 
 # Modelio įvertinimas
 #model_predict = model.predict(padded_seq_test)
