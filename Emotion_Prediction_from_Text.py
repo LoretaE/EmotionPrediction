@@ -14,7 +14,7 @@ from keras.src.utils import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Embedding, LSTM
+from tensorflow.keras.layers import Dense, Embedding, GRU
 from tensorflow.keras.utils import to_categorical
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -57,9 +57,9 @@ def create_model(optimizer='adam'):
     model = Sequential([
         # būtent dėl Embedding sluoksnio neveikia kvietimas per RandomizedSearchCV,
         # nors RandomizedSearchCV veikia išmetus Embedding ir LSTM
-        # Embedding veikia modelį tiesiogiai paleidus 
+        # Embedding veikia modelį tiesiogiai paleidus
         Embedding(input_dim=1000, output_dim=10, input_length=20),
-        LSTM(32),
+        GRU(60),
         Dense(3, activation='sigmoid')
     ])
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -98,7 +98,7 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
         mode="min",
         baseline=None,
         restore_best_weights=True,
-        start_from_epoch=20,
+        start_from_epoch=5,
     )
     log = model.fit(padded_seq_train, labels_train,
               epochs=epochs,
