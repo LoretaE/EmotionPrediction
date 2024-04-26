@@ -114,8 +114,9 @@ print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'
       f' - nuostoliai: {test_loss:.3f}, \n '  #loss
       f'- tikslumas: {test_accuracy:.3f} ')  #accuracy
 ```
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/4e92a02e-6f0d-4e97-867a-876f376b895d)
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f7816344-b3e0-48c8-9927-efb0588e76f0)
+![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/7082f9b0-2ee9-401f-a0d9-fac135720ab6)
+![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/a87d7685-49ac-4606-bfe2-da6f9b37b622)
+
 
 ### The user can test the performance himself (how the model recognizes emotions from text)
 
@@ -142,6 +143,8 @@ def decode_emotion_name(unique_emotions, prediction):
 
 test_manually(model, unique_emotion_names)
 ```
+![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/cbc40058-d008-43ac-98eb-dde8f39ea2f1)
+
 
 ### Trying to look up hyperparameters (we got an error but couldn't resolve it)
 
@@ -290,8 +293,10 @@ print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'
       f' - nuostoliai: {test_loss:.3f}, \n '
       f'- tikslumas: {test_accuracy:.3f} ')
 ```
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/4e92a02e-6f0d-4e97-867a-876f376b895d)
-![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f7816344-b3e0-48c8-9927-efb0588e76f0)
+![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/7082f9b0-2ee9-401f-a0d9-fac135720ab6)
+![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/a87d7685-49ac-4606-bfe2-da6f9b37b622)
+
+
 
 ### Naudotojas gali pats išsibandyti veikimą (kaip modelis atpažįsta emocijas iš teksto)
 
@@ -318,6 +323,8 @@ def decode_emotion_name(unique_emotions, prediction):
 
 test_manually(model, unique_emotion_names)
 ```
+![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/7779c1ad-f40e-45eb-849c-fbd9cc948e52)
+
 
 ### Bandymas ieškoti hiperparametrų (gavome klaidą, bet nepavyko išspręsti)
 
