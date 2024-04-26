@@ -185,9 +185,8 @@ grafikai(log)
 #model_predict = model.predict(padded_seq_test)
 test_loss, test_accuracy = model.evaluate(padded_seq_test, labels_test)
 print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'
-      f' - nuostoliai: {test_loss:.3f}, \n '
-      f'- tikslumas: {test_accuracy:.3f} ')
-
+      f' - nuostoliai: {test_loss:.3f}, \n'
+      f' - tikslumas: {test_accuracy:.3f}')
 
 # Naudotojo prasyti ivesti
 test_manually(model, unique_emotion_names)
