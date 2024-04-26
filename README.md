@@ -296,6 +296,37 @@ print(f'Modelio ivertinimas su apmokyme nenaudotais duomenimis:\n'
 ![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/7082f9b0-2ee9-401f-a0d9-fac135720ab6)
 ![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/a87d7685-49ac-4606-bfe2-da6f9b37b622)
 
+# Vizualizacija
+
+```javascript
+def grafikai(log):
+    # Tikslumas
+    plt.figure()
+    df = pd.DataFrame(log.history)
+    df['accuracy'].plot(label='accuracy')
+    df['val_accuracy'].plot(label='val_accuracy')
+    plt.title('Modelio tikslumo kaita')
+    plt.xlabel('Ciklas (epoch)')
+    plt.ylabel('Tikslumas (accuracy)')
+    plt.legend()
+    plt.show()
+
+    # Nuostoliai
+    plt.figure()
+    df['loss'].plot(label='loss')
+    df['val_loss'].plot(label='val_loss')
+    plt.title('Modelio nuostolių kaita')
+    plt.xlabel('Ciklas (epoch)')
+    plt.ylabel('Nuostoliai (loss)')
+    plt.legend()
+    plt.show()
+```
+<img src="https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/2c57f2de-5d25-4388-8255-72e48672d984" 
+     width="480" 
+     height="360" />
+<img src="https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/3979e341-c575-4f26-81c0-a9689bd08cb1" 
+     width="480" 
+     height="360" />
 
 
 ### Naudotojas gali pats išsibandyti veikimą (kaip modelis atpažįsta emocijas iš teksto)
