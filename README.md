@@ -64,13 +64,13 @@ padded_seq_train, padded_seq_test, labels_train, labels_test = train_test_split(
 ```
 ![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f624e2f5-357a-4ff1-af2b-14fc4dcdf267)
 
-### Sequential model creation with Embedding, LSTM and Dense layers.
+### Sequential model creation with Embedding, RNN (GRU type) and Dense layers.
 
 ```javascript
 def create_model(optimizer='adam'):
     model = Sequential([
         Embedding(input_dim=1000, output_dim=10, input_length=20),
-        LSTM(32),
+        GRU(60),
         Dense(3, activation='softmax')
     ])
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -90,7 +90,7 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
         mode="min",
         baseline=None,
         restore_best_weights=True,
-        start_from_epoch=20,
+        start_from_epoch=5,
     )
     log = model.fit(padded_seq_train, labels_train,
               epochs=epochs,
@@ -242,13 +242,13 @@ padded_seq_train, padded_seq_test, labels_train, labels_test = train_test_split(
 ```
 ![image](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/163418549/f624e2f5-357a-4ff1-af2b-14fc4dcdf267)
 
-### Sequential modelio su Embedding, LSTM ir Dense sluoksniais sukūrimo funkcija.
+### Sequential modelio su Embedding, RNN (GRU tipo) ir Dense sluoksniais sukūrimo funkcija.
 
 ```javascript
 def create_model(optimizer='adam'):
     model = Sequential([
         Embedding(input_dim=1000, output_dim=10, input_length=20),
-        LSTM(32),
+        GRU(60),
         Dense(3, activation='softmax')
     ])
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -268,7 +268,7 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
         mode="min",
         baseline=None,
         restore_best_weights=True,
-        start_from_epoch=20,
+        start_from_epoch=5,
     )
     log = model.fit(padded_seq_train, labels_train,
               epochs=epochs,
