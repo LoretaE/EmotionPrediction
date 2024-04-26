@@ -325,6 +325,9 @@ test_manually(model, unique_emotion_names)
 ```
 ![paveikslas](https://github.com/Samantjna/Emotion-Prediction-Using-NLP/assets/1218781/7779c1ad-f40e-45eb-849c-fbd9cc948e52)
 
+### Modelio tikslumo ir nuostolių kaita
+![tikslumo-grafikas.png](tikslumo-grafikas.png)
+![Nuostoliu-kaitos-grafikas.png](Nuostoliu-kaitos-grafikas.png)
 
 ### Bandymas ieškoti hiperparametrų (gavome klaidą, bet nepavyko išspręsti)
 
