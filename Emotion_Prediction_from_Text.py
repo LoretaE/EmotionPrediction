@@ -117,6 +117,7 @@ def grafikai(log):
     plt.xlabel('Ciklas (epoch)')
     plt.ylabel('Tikslumas (accuracy)')
     plt.legend()
+    plt.savefig('Tikslumas (accuracy).png')
     plt.show()
 
     # Nuostoliai
@@ -127,6 +128,7 @@ def grafikai(log):
     plt.xlabel('Ciklas (epoch)')
     plt.ylabel('Nuostoliai (loss)')
     plt.legend()
+    plt.savefig('Nuostoliai (loss).png')
     plt.show()
 
 
