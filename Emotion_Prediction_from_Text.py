@@ -108,14 +108,17 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
     return model, log
 
 def grafikai(log):
+    df = pd.DataFrame(log.history)
+    early_stop_point = df['val_loss'].idxmin()
+
     # Tikslumas
     plt.figure()
-    df = pd.DataFrame(log.history)
     df['accuracy'].plot(label='accuracy')
     df['val_accuracy'].plot(label='val_accuracy')
     plt.title('Modelio tikslumo kaita')
     plt.xlabel('Ciklas (epoch)')
     plt.ylabel('Tikslumas (accuracy)')
+    plt.plot([early_stop_point, early_stop_point], [0.3, 1], 'k--', label='early stopping')
     plt.legend()
     plt.savefig('Tikslumas (accuracy).png')
     plt.show()
@@ -127,6 +130,7 @@ def grafikai(log):
     plt.title('Modelio nuostolių kaita')
     plt.xlabel('Ciklas (epoch)')
     plt.ylabel('Nuostoliai (loss)')
+    plt.plot([early_stop_point, early_stop_point], [0.1, 1.1], 'k--', label='early stopping')
     plt.legend()
     plt.savefig('Nuostoliai (loss).png')
     plt.show()
