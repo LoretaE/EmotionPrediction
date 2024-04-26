@@ -105,6 +105,21 @@ def train_single_model(padded_seq_train, labels_train, epochs=100, batch_size=20
               batch_size=batch_size,
               callbacks=[early_stopping],
               validation_split=0.2)
+    loss_df = pd.DataFrame(model.history.history)
+    loss_df['accuracy'].plot(label='accuracy')
+    loss_df['val_accuracy'].plot(label='val_accuracy')
+    plt.title('Modelio tikslumo kaita')
+    plt.xlabel('Ciklas (epoch)')
+    plt.ylabel('Tikslumas (accuracy)')
+    plt.legend()
+    plt.show()
+    loss_df['loss'].plot(label='loss')
+    loss_df['val_loss'].plot(label='val_loss')
+    plt.title('Modelio nuostolių kaita')
+    plt.xlabel('Ciklas (epoch)')
+    plt.ylabel('Nuostoliai (loss)')
+    plt.legend()
+    plt.show()
     return model, log
 
 
